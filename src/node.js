@@ -39,17 +39,49 @@ class Node {
 	}
 
 	swapWithParent() {
-		if (this.parent == null) {
+		if (this.parent == undefined) {
 			return;
-		} else if (this.parent.parent == null) {
-			this.parent.parent = this;
-		} else if (this.parent.parent !== null && this.parent.parent.parent == null){
-			let elem = this.parent.parent;
-	
-			this.parent.parent = this;
-			this.parent = elem;
-		} 
+		}
+		let grandParent = this.parent.parent;
+		let OldParent = this.parent;
+		let OldChild = this;
+		let OldChildLeft = this.left;
+		let OldChildRight = this.right;
+		let OldParentLeft = this.parent.left;
+		let OldParentRight = this.parent.right;
+		
+		if (this == this.parent.right && this.parent.left !== null) {
+			OldChild.parent = OldParent.parent;
+			OldChild.right = OldParent;
+			OldChild.left = OldParentLeft;
+			OldParentLeft.parent = OldChild;
+			OldParent.left = OldChildLeft;
+			OldParent.right = OldChildRight;
+			OldParent.parent = this;
+		} else if (this == this.parent.left && this.parent.right !== null) {
+			OldChild.parent = OldParent.parent;
+			OldChild.left = OldParent;
+			OldChild.right = OldParentRight;
+
+			OldParentRight.parent = OldChild;
+			OldParent.left = OldChildLeft;
+			OldParent.right = OldChildRight;
+			OldParent.parent = this;
+		} else {
+			OldChild.parent = OldParent.parent;
+			OldParent.parent = OldChild;
+			OldParent.left = OldChildLeft;
+			OldParent.right = OldChildRight;
+		}
+		if (grandParent) {
+			if (grandParent.left == OldParent) {
+				grandParent.left = OldChild;
+			} else if (grandParent.right == OldParent){
+				grandParent.right = OldChild ;
+			}
+		}	
 	}
+	
 }
 
 module.exports = Node;
