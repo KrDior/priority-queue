@@ -71,50 +71,39 @@ class MaxHeap {
 
 	insertNode(node) {
 		this.heap.push(node);
+		
 		if (this.isEmpty()) {
 			this.root = node;
 			this.parentNodes[0] = this.root;
 			return;
 		} else {
-			let ParentIndex = this.parentNodes[0];
-
-			if (!ParentIndex.left) {
-				ParentIndex.left = node;
-				this.parentNodes.push(node);
-				//console.log('left', this.parentNodes)
-			} else if (!ParentIndex.right) {
-				ParentIndex.right = node;
-				this.parentNodes.push(node);
+			let CurrentParent = this.parentNodes[0];
+			CurrentParent.appendChild(node);
+			this.parentNodes.push(node);
+			if (CurrentParent.right == node) {
+				//console.log('RightParent', node.parent.right.data, node.parent.data)
 				this.parentNodes.shift();
-				// console.log('right',this.parentNodes)
 			}
+			//console.log('leftParent', node.parent.left.data, node.parent.data)
 		}
-		console.log(this.heap)
+		
 	}
 
 	shiftNodeUp(node) {
-		//console.log('startShift',this.heap[0].priority)
 
 		if (node.parent !== null && node.priority > node.parent.priority) {
-			//console.log(node.data, node.priority, node.parent.data)
-			//console.log(node.parent.data, node.parent.priority)
-
 			node.swapWithParent();
 			this.shiftNodeUp(node);
-
 		} else {
-			
-
 			let indextNode = this.parentNodes.indexOf(node);
 			this.parentNodes[indextNode] = this.root;
-			// console.log('0',this.parentNodes[0])
-			// console.log('1',this.parentNodes[1])
-			// console.log('2',this.parentNodes[2])
 			this.root = node;
 			this.parentNodes.reverse();
-			//console.log(this.heap)
-
-			
+			// console.log('node', node.data, node.priority)
+			// console.log('leftNode', node.left.data, node.left.priority)
+			// console.log('RightNode', node.right.data, node.right.priority)
+			// console.log('leftLefttNode', node.left.left.data, node.left.left.priority)
+			// console.log('leftLefttNode', node.left.left.parent.data, node.left.left.parent.priority)
 		}
 
 	}

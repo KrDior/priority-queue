@@ -44,42 +44,59 @@ class Node {
 		}
 		let grandParent = this.parent.parent;
 		let OldParent = this.parent;
+		let OldParentLeft = this.parent.left;
+		let OldParentRight = this.parent.right;
 		let OldChild = this;
 		let OldChildLeft = this.left;
 		let OldChildRight = this.right;
-		let OldParentLeft = this.parent.left;
-		let OldParentRight = this.parent.right;
-		
-		if (this == this.parent.right && this.parent.left !== null) {
-			OldChild.parent = OldParent.parent;
-			OldChild.right = OldParent;
-			OldChild.left = OldParentLeft;
-			OldParentLeft.parent = OldChild;
-			OldParent.left = OldChildLeft;
-			OldParent.right = OldChildRight;
-			OldParent.parent = this;
-		} else if (this == this.parent.left && this.parent.right !== null) {
+
+		if (this == this.parent.left) {
+			if (this.parent.right !== null) {
+				OldParentRight.parent = OldChild;
+			}
+			if (OldChildLeft && OldChildRight == undefined) {
+				OldChildLeft.parent = OldParent;
+			} else if (OldChildLeft && OldChildRight) {
+				OldChildLeft.parent = OldParent;
+				OldChildRight.parent = OldParent;
+			}
 			OldChild.parent = OldParent.parent;
 			OldChild.left = OldParent;
 			OldChild.right = OldParentRight;
-
-			OldParentRight.parent = OldChild;
 			OldParent.left = OldChildLeft;
 			OldParent.right = OldChildRight;
 			OldParent.parent = this;
-		} else {
+			
+
+		} else if (this == this.parent.right) {
+			if (this.parent.left !== null) {
+				OldParentLeft.parent = OldChild;
+			}
+			if (OldChildLeft && OldChildRight == undefined) {
+				OldChildLeft.parent = OldParent;
+			} else if (OldChildLeft && OldChildRight) {
+				OldChildLeft.parent = OldParent;
+				OldChildRight.parent = OldParent;
+			}
 			OldChild.parent = OldParent.parent;
-			OldParent.parent = OldChild;
+			OldChild.right = OldParent;
+			OldChild.left = OldParentLeft;
+
+			
+			
 			OldParent.left = OldChildLeft;
 			OldParent.right = OldChildRight;
-		}
+			OldParent.parent = this;
+
+		} 
 		if (grandParent) {
 			if (grandParent.left == OldParent) {
 				grandParent.left = OldChild;
 			} else if (grandParent.right == OldParent){
 				grandParent.right = OldChild ;
 			}
-		}	
+		}
+		
 	}
 	
 }
