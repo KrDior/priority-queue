@@ -11,14 +11,12 @@ class MaxHeap {
 		let node = new Node(data, priority);
 		this.insertNode(node);
 		this.shiftNodeUp(node);
-		//console.log('push',this.heap.length)
 	}
 
 	pop() {
 		if (this.isEmpty()) {
 			return;
 		}
-		console.log('test2')
 		let LastRoot = this.root.data
 		this.size2 -= 1;
 		let detached = this.detachRoot()
@@ -52,6 +50,8 @@ class MaxHeap {
 		if (detached.left && detached.right) {
 			CurrentRootLeft = detached.left;
 			CurrentRootRight = detached.right;
+			
+
 		} else if (detached.left) {
 
 			CurrentRootLeft = detached.left;
@@ -60,7 +60,7 @@ class MaxHeap {
 
 			return detached.data;
 		}
-
+		
 
 		let lastInsertedNode = this.parentNodes[this.parentNodes.length - 1];
 
@@ -71,6 +71,7 @@ class MaxHeap {
 			if (detached.right == lastInsertedNode) {
 				this.parentNodes.pop();
 				this.parentNodes.unshift(lastInsertedNode);
+
 			}
 			if (lastInsertedNode.parent.right == lastInsertedNode && lastInsertedNode.parent !== detached) {
 				this.parentNodes.pop();
@@ -157,8 +158,8 @@ class MaxHeap {
 		let indextChild = this.parentNodes.indexOf(node.left);
 
 		if (node.left !== null && node.right !== null) {
+			
 			if (node.priority < node.left.priority && node.left.priority > node.right.priority) {
-				//console.log('test_Left-right')
 				if (node == this.root) {
 					this.root = node.left;
 				}
@@ -169,7 +170,6 @@ class MaxHeap {
 
 				this.shiftNodeDown(node)
 			} else if (node.priority < node.right.priority && node.left.priority < node.right.priority) {
-				//console.log('test_left-Right')
 				if (node == this.root) {
 					this.root = node.right;
 				}
@@ -177,19 +177,24 @@ class MaxHeap {
 					this.parentNodes[this.parentNodes.indexOf(node.right)] = node;
 				}
 				node.right.swapWithParent();
-				this.shiftNodeDown(node)
+				this.shiftNodeDown(node);
+
 			}
 		} else if (node.left !== null && node.right == null) {
+			
 			if (node.priority < node.left.priority) {
-				//console.log('test_left')
+				if (node == this.root) {
+					this.root = node.left;
+				}
 				this.parentNodes[indextNode] = node.left;
 				this.parentNodes[indextChild] = node;
 				node.left.swapWithParent();
 				this.shiftNodeDown(node)
+				
 			}
 		} else if (node.left == null && node.right !== null) {
 			if (node.priority < node.right.priority) {
-				//console.log('test_right')
+
 				this.parentNodes[indextNode] = node.right;
 				this.parentNodes[indextChild] = node;
 				node.right.swapWithParent();

@@ -51,21 +51,27 @@ class Node {
 		let OldChildRight = this.right;
 
 		if (this == this.parent.left) {
+
 			if (this.parent.right !== null) {
 				OldParentRight.parent = OldChild;
 			}
 			if (OldChildLeft && OldChildRight == undefined) {
+	
 				OldChildLeft.parent = OldParent;
 			} else if (OldChildLeft && OldChildRight) {
+				
 				OldChildLeft.parent = OldParent;
 				OldChildRight.parent = OldParent;
 			}
+			
 			OldChild.parent = OldParent.parent;
 			OldChild.left = OldParent;
 			OldChild.right = OldParentRight;
+			
 			OldParent.left = OldChildLeft;
 			OldParent.right = OldChildRight;
 			OldParent.parent = this;
+
 			
 
 		} else if (this == this.parent.right) {
